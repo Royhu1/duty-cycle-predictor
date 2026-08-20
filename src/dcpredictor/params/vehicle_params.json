@@ -1,0 +1,38 @@
+{
+    "default": {
+        "energy_type": "diesel",
+        "frontal_area_m2": 10.0,
+        "drag_coefficient": 0.5,
+        "rolling_resistance_coeff": 0.00464,
+        "transmission_efficiency": 0.95,
+        "engine_efficiency": 0.42,
+        "heating_value_mj_l": 38.7,
+        "idle_fuel_consumption_l_per_hr": 0.0,
+        "max_torque_nm": 2500,
+        "company": "None"
+    },
+    "AY71UCD": {
+        "energy_type": "diesel",
+        "frontal_area_m2": 8.5,
+        "drag_coefficient": 0.45,
+        "rolling_resistance_coeff": 0.005,
+        "transmission_efficiency": 0.95,
+        "engine_efficiency": 0.4,
+        "heating_value_mj_l": 38.7,
+        "idle_fuel_consumption_l_per_hr": 0.8,
+        "max_torque_nm": 2200,
+        "company": "None"
+    },
+    "FX73VAE": {
+        "energy_type": "diesel",
+        "frontal_area_m2": 10,
+        "drag_coefficient": 0.616,
+        "rolling_resistance_coeff": 0.00465,
+        "transmission_efficiency": 0.95,
+        "engine_efficiency": 0.45,
+        "heating_value_mj_l": 38.7,
+        "idle_fuel_consumption_l_per_hr": 0.0,
+        "max_torque_nm": 2500,
+        "company": "Turners"
+    }
+}

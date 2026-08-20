@@ -1,0 +1,13 @@
+{
+    "default": {
+        "v_cap": 25.0,
+        "v_cruise": 25.0,
+        "v_roundabout_enter": 3.0,
+        "v_turn": 4.0,
+        "v_other_action": 5.0,
+        "a_acc": 0.58,
+        "a_dec": 0.83,
+        "dt": 1.0,
+        "smooth_speed": true
+    }
+}

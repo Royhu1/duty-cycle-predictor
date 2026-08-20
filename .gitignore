@@ -1,0 +1,129 @@
+# =============================================================================
+# duty-cycle-predictor .gitignore
+# Philosophy (follows the JOLT_Report layout): commit ONLY source code +
+# documentation. Never commit data, generated artefacts, large binaries,
+# secrets, or machine-local files. See README.md / .claude/rules/housekeeping.md.
+# =============================================================================
+
+# --- Secrets / credentials (NEVER commit) ------------------------------------
+.env
+.env.*
+!.env.example
+**/api_keys.json
+secrets.json
+credentials.json
+*.pem
+*.key
+
+# --- Machine-local / private working notes -----------------------------------
+CLAUDE.local.md
+
+# --- Data files (raw GPS + derived) ------------------------------------------
+# All tabular data stays out of the repo; only code + docs are tracked.
+data/
+results/
+ref/
+*.csv
+
+# --- Generated HTML inspectors / reports -------------------------------------
+*.html
+
+# --- Recycle bin (archive over delete; keep the folder, not its contents) ----
+archive/*
+!archive/.gitkeep
+
+# --- Large binaries: slides / archives / media -------------------------------
+*.pptx
+*.ppt
+*.pptm
+*.7z
+*.zip
+*.rar
+*.gz
+*.tar
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+MANIFEST
+*.manifest
+*.spec
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# --- Jupyter -----------------------------------------------------------------
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# --- IDE / editor ------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# --- Testing / coverage / typing ---------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.log
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# --- OS junk -----------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Temporary / scratch files -----------------------------------------------
+tmp/
+*.tmp
+*.temp
+*.bak
+*.cache
+
+# --- Claude Code / MCP -------------------------------------------------------
+# Ignore every .claude/ at any depth (vendored skills, other tools) ...
+.claude/
+# ... but track THIS project's shared root config selectively. The root .claude
+# dir is re-included, its contents ignored, then rules/commands/settings.json/
+# README re-included (settings.local.json, sessions/, worktrees/, skills/,
+# agent-memory/ stay ignored via /.claude/*).
+!/.claude/
+/.claude/*
+!/.claude/README.md
+!/.claude/rules/
+!/.claude/commands/
+!/.claude/settings.json
+.mcp.json
+
+# --- Video / media (never commit) ---------------------------------------------
+*.mp4
+*.mov
+*.avi
