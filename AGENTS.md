@@ -8,14 +8,20 @@ over the global rules below** — read them first.
 
 <!-- BEGIN GLOBAL RULES (generated) -->
 <!-- GENERATED FILE - DO NOT EDIT.
-     Source of truth: ~/.claude/rules/{repo-roles,naming,code-style,git-workflow,housekeeping}.md @ 2d78e38 (2026-08-20)
+     Source of truth: ~/.claude/rules/{repo-roles,naming,code-style,git-workflow,housekeeping}.md @ bc12e98 (2026-08-20)
      To change these rules: edit the source files, then run /sync-agent-rules in Claude Code
      (or: powershell -File ~/.claude/rules/tools/build-agents-md.ps1). -->
 # Repository Roles (Global) ／仓库角色与职责划分
 
 > Personal defaults for ALL projects. Project rules override.
-> Research code splits into **two repositories side by side** under the same parent directory. Pick one role per
-> repository and state it in the first line of its README. ／每个仓库只承担一种角色，README 首行写明。
+> Pick one role per repository and state it in the first line of its README. ／每个仓库只承担一种角色，README 首行写明。
+
+## 0. Three roles ／三种角色
+
+- **standalone** — a self-contained tool, app or one-off project. No pairing, no unified route. **Most
+  repositories are this** ／多数仓库属于此类: utilities, web/video apps, 业余 projects.
+- **core repo** + **workspace** — the *pair* below, used only when research code must separate a reusable
+  algorithm from the experiments that consume it. Do not impose it on a project that is not that.
 
 ## 1. The pair ／一对仓库
 
