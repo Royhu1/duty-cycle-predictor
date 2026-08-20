@@ -1,8 +1,8 @@
 # `dcpredictor` — package architecture
 
 > This is the **single source of truth for the `dcpredictor` package**: its public API, module map, data flow,
-> and key algorithms. The repository-wide map is the root [`README.md`](../../README.md). Versioning / commit /
-> changelog conventions are in [`../../.claude/rules/git-workflow.md`](../../.claude/rules/git-workflow.md).
+> and key algorithms. The repository-wide map is the root [`README.md`](../README.md). Versioning / commit /
+> changelog conventions are in [`../.claude/rules/git-workflow.md`](../.claude/rules/git-workflow.md).
 
 `dcpredictor` is the installable, SemVer-versioned core of the project (distribution name `duty-cycle-prediction`,
 import name `dcpredictor`). It turns a route into a duty cycle: a speed profile, a gradient profile, and an
@@ -12,7 +12,7 @@ energy/fuel profile.
 
 ```bash
 conda activate dcp
-pip install -e .            # editable install (required for the src-layout)
+pip install -e .            # editable install (run in the repository root)
 ```
 
 The version is single-sourced from `pyproject.toml` (`[project].version`); `version.py` reads it at runtime via
@@ -41,7 +41,7 @@ Sub-package exports:
 ## Package structure
 
 ```
-src/dcpredictor/
+dcpredictor/
 ├── __init__.py                        # public exports (see table above)
 ├── version.py                         # version metadata (importlib.metadata + fallback)
 ├── CHANGELOG.md                       # package SemVer changelog
@@ -120,4 +120,4 @@ with optional regenerative recovery on negative power.
 
 SemVer applies to this package only. On release: bump `pyproject.toml` `version` **and** `version.py`
 `_FALLBACK_VERSION`/metadata, add a `CHANGELOG.md` entry, commit, and tag `vX.Y.Z`. See
-[`../../.claude/rules/git-workflow.md`](../../.claude/rules/git-workflow.md).
+[`../.claude/rules/git-workflow.md`](../.claude/rules/git-workflow.md).

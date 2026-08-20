@@ -1,6 +1,8 @@
 # `tests/` — unit tests
 
-Pytest unit tests for the `dcpredictor` package. They exercise pure, deterministic logic and **require no API keys**.
+Pytest unit tests for the `dcpredictor` package. They exercise pure, deterministic logic and **require no API
+keys and no data files**. The [`data/`](data/) subfolder holds sample measured GPS trip legs (gitignored) used
+by the validation demo (`demo/predict_vs_measured_leg.ipynb`) — see [`data/README.md`](data/README.md).
 
 ```bash
 conda activate dcp

@@ -8,10 +8,10 @@
 ### Vehicle / directory
 
 - **Vehicle registration**: uppercase, no spaces, exactly as on the plate (e.g. `AY71UCD`, `FX73VAE`);
-  used as the `<REG>` token in data folders (`data/<REG>/`), parameter presets (`vehicle_params.json` keys),
+  used as the `<REG>` token in data folders (`tests/data/<REG>/`), parameter presets (`vehicle_params.json` keys),
   and result folders.
-- **Folders**: lowercase `snake_case` (e.g. `extended_eval`, `trip_level_metrics`). The only exception is the
-  core package directory `src/dcpredictor`.
+- **Folders**: lowercase `snake_case` (e.g. `demo`, `tests`); the core package directory is `dcpredictor/` at
+  the repository root.
 
 ### Date / period
 
@@ -21,7 +21,7 @@
 
 ### Parameters & presets
 
-- Vehicle / driving presets live in `src/dcpredictor/params/{vehicle_params,driving_behavior}.json`, keyed by
+- Vehicle / driving presets live in `dcpredictor/params/{vehicle_params,driving_behavior}.json`, keyed by
   `"default"` or a `<REG>`; load them via `load_default_vehicle_params(<key>)` / `load_default_driving_behavior(<key>)`.
 
 ### Figures & outputs

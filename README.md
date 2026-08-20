@@ -2,7 +2,7 @@
 
 > **This file is the project map** — overall design, repository layout, and how to install, use, and develop the
 > project. For the *internals of the toolkit itself* (public API, module map, algorithms), see the package README at
-> [`src/dcpredictor/README.md`](src/dcpredictor/README.md). At every level, that directory's own `README.md` is the
+> [`dcpredictor/README.md`](dcpredictor/README.md). At every level, that directory's own `README.md` is the
 > single source of truth for that directory.
 
 A Python toolkit for predicting vehicle **duty cycles** from a route: a time-series **speed profile**, an
@@ -11,10 +11,10 @@ elevation (SRF) data plus a longitudinal vehicle-dynamics model.
 
 ## Project architecture: a hierarchical design
 
-The repository is a tree: one small, installable, versioned core package (`src/dcpredictor`) surrounded by
-**workspaces** (notebooks, examples, tests) and **data/output folders** that are reproducible and therefore
-kept out of git. Each directory documents itself through its own `README.md`, so humans and AI agents can navigate by
-progressive disclosure. Only source code and documentation are committed (see `.gitignore`).
+The repository is deliberately small: one installable, versioned core package (`dcpredictor/`) at the root,
+demo notebooks (`demo/`) showing how to use it, and unit tests (`tests/`, with sample GPS data under
+`tests/data/`, kept out of git). Each directory documents itself through its own `README.md`, so humans and AI
+agents can navigate by progressive disclosure. Only source code and documentation are committed (see `.gitignore`).
 
 This repository is deliberately scoped to the **development and testing of the predictor itself** — clone it to use,
 experiment with, or evaluate the toolkit. Paper writing and project-level analyses (e.g. conference papers,
@@ -26,17 +26,13 @@ Only the top level is shown; folders with their own `README.md` document their i
 
 ```
 ./
-├── src/dcpredictor      # core package — the only installable, versioned unit (src-layout)
-├── data                 # raw GPS trajectory data, data/<REG>/*.csv (gitignored)
-├── results              # generated prediction outputs (gitignored)
-├── notebooks            # exploratory Jupyter notebooks
-├── examples             # runnable example scripts
+├── dcpredictor          # core package — the only installable, versioned unit
+├── demo                 # demo notebooks: offline basics, end-to-end prediction, validation
 ├── tests                # unit tests (pytest)
-├── changelogs           # weekly project changelogs (Q&A summaries)
-├── archive              # recycle bin for retired files (gitignored)
+│   └── data             # sample GPS trip legs, tests/data/<REG>/*.csv (gitignored)
 ├── tmp                  # one-off scratch: logs, debug figures, _tmp_*.py (gitignored)
 ├── requirements.txt     # pip dependency list
-├── pyproject.toml       # packaging + tooling config for src/dcpredictor
+├── pyproject.toml       # packaging + tooling config for dcpredictor
 ├── README.md            # project map (this file)
 ├── CLAUDE.md            # Claude / AI collaboration conventions (imports .claude/rules/*)
 └── .claude              # Claude Code config: committed rules, gitignored skills/runtime
@@ -58,8 +54,8 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-> Because of the src-layout, `import dcpredictor` only resolves after `pip install -e .` — the package is not
-> importable directly from the repository root.
+> The package lives at the repository root (flat layout), so `import dcpredictor` works directly from the root;
+> the editable install makes it resolve from anywhere (demo notebooks, tests, other projects).
 
 ### API keys
 
@@ -105,15 +101,20 @@ else:
 
 `predict()` returns `None` when the route is shorter than ~5 km (a guard against degenerate routes).
 
-### Offline, no API keys
+### Demo notebooks
 
-The lower-level building blocks run without any keys — see [`examples/basic_usage.py`](examples/basic_usage.py),
-which generates a speed profile from a sample route and computes wheel power and fuel rate directly.
+Worked examples live in [`demo/`](demo/):
+
+| Notebook | Needs | Shows |
+|----------|-------|-------|
+| `basic_usage_offline.ipynb` | nothing | offline building blocks: speed profile + wheel power + fuel rate |
+| `predict_end_to_end.ipynb` | HERE key (SRF optional) | the full `predict()` pipeline with plots |
+| `predict_vs_measured_leg.ipynb` | HERE key + sample data | prediction validated against a measured GPS trip leg |
 
 ## What it predicts
 
 **Input:** an origin/destination (and optional via points), a vehicle mass, vehicle parameters, and a driving-behaviour
-profile. **Output:** a [`DutyCycle`](src/dcpredictor/README.md) with three aligned DataFrames —
+profile. **Output:** a [`DutyCycle`](dcpredictor/README.md) with three aligned DataFrames —
 
 1. **Speed profile** — per-second speed/acceleration over the route, from a kinematic driver model.
 2. **Gradient profile** — elevation and road gradient (degrees) along the route, from SRF elevation data.
@@ -121,7 +122,8 @@ profile. **Output:** a [`DutyCycle`](src/dcpredictor/README.md) with three align
 
 ## Input data format
 
-GPS trajectory CSVs live under `data/<REG>/` (e.g. `data/AY71UCD/20250227_AY71UCD_Leg1.csv`):
+Sample measured GPS trip legs (used by the validation demo and any data-driven tests) live under
+`tests/data/<REG>/` (e.g. `tests/data/AY71UCD/20250227_AY71UCD_Leg1.csv`; gitignored — supplied separately):
 
 | Column | Description |
 |--------|-------------|
@@ -133,7 +135,7 @@ GPS trajectory CSVs live under `data/<REG>/` (e.g. `data/AY71UCD/20250227_AY71UC
 
 ## Key parameters
 
-Defaults live in `src/dcpredictor/params/*.json` and are loaded via `load_default_vehicle_params(<key>)` /
+Defaults live in `dcpredictor/params/*.json` and are loaded via `load_default_vehicle_params(<key>)` /
 `load_default_driving_behavior(<key>)`. Override by constructing `VehicleParams` / `DrivingBehavior` directly.
 
 **Vehicle (`vehicle_params.json` → `default`):**
@@ -167,13 +169,13 @@ pip install -e ".[dev]"
 pytest                 # run unit tests (no API keys required)
 black .                # format
 isort .                # sort imports
-mypy src/              # type-check the package
+mypy dcpredictor/      # type-check the package
 ```
 
 ## Package internals
 
 The toolkit's public API, module map, and algorithms are documented in
-[`src/dcpredictor/README.md`](src/dcpredictor/README.md). Versioning (SemVer on the package only), commit, branch and
+[`dcpredictor/README.md`](dcpredictor/README.md). Versioning (SemVer on the package only), commit, branch and
 changelog conventions are in [`.claude/rules/git-workflow.md`](.claude/rules/git-workflow.md).
 
 ## License

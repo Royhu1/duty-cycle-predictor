@@ -18,19 +18,16 @@ credentials.json
 # --- Machine-local / private working notes -----------------------------------
 CLAUDE.local.md
 
-# --- Data files (raw GPS + derived) ------------------------------------------
+# --- Data files (sample GPS legs + derived) -----------------------------------
 # All tabular data stays out of the repo; only code + docs are tracked.
-data/
+# tests/data/ keeps its README tracked; the CSVs are supplied separately.
+tests/data/*
+!tests/data/README.md
 results/
-ref/
 *.csv
 
 # --- Generated HTML inspectors / reports -------------------------------------
 *.html
-
-# --- Recycle bin (archive over delete; keep the folder, not its contents) ----
-archive/*
-!archive/.gitkeep
 
 # --- Large binaries: slides / archives / media -------------------------------
 *.pptx

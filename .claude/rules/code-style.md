@@ -35,13 +35,12 @@ Python code follows PEP 8 and uses the tools configured under
 
 - Name throwaway scripts `_tmp_*.py` and keep them in `tmp/` (gitignored); delete after use and do not
   reference them in any README.
-- Do not drop one-off scripts in the repository root — they belong in `tmp/`, or are moved into `archive/`
-  (see `housekeeping.md`).
+- Do not drop one-off scripts in the repository root — they belong in `tmp/` (see `housekeeping.md`).
 
 ### Sub-project independence (reproducible-archive convention)
 
-The exploratory workspaces (`notebooks/`, `examples/`) should each be a
-self-contained, reproducible archive — deletable or archivable on its own without breaking the others:
+The demo workspace (`demo/`) should be a
+self-contained, reproducible archive — deletable or archivable on its own without breaking anything else:
 
 - The only code dependencies allowed are: the Python standard library, pip packages, the versioned
   `dcpredictor` package (installed via `pip install -e .`), and the sub-project's own files.
@@ -49,8 +48,9 @@ self-contained, reproducible archive — deletable or archivable on its own with
   `dcpredictor`; if it does not belong there yet, copy it with a provenance header (source path, copy date, reason).
 - **Rule of three**: logic reused by 3+ sub-projects and already stable should be promoted into the `dcpredictor`
   package (bump a SemVer minor), not copied endlessly.
-- A sub-project reads raw data from `data/` (gitignored) and writes its own outputs into its own `results/` /
-  `figures/`; it must not read another sub-project's outputs. Cross-linking documents (README links) is fine.
+- A sub-project reads sample data from `tests/data/` (gitignored) and writes its own outputs into its own
+  `results/` / `figures/` (gitignored); it must not read another sub-project's outputs. Cross-linking documents
+  (README links) is fine.
 
-> The package's own architecture conventions (src-layout, public API, module map, key algorithms) live in
-> `src/dcpredictor/README.md`. This file governs Python style only.
+> The package's own architecture conventions (public API, module map, key algorithms) live in
+> `dcpredictor/README.md`. This file governs Python style only.
