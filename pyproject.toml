@@ -1,80 +1,12 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "duty-cycle-prediction"
-description = "A Python package for predicting vehicle duty cycles and analyzing fuel consumption"
-readme = "README.md"
-requires-python = ">=3.10"
-license = {text = "MIT"}
-authors = [
-    {name = "Jiang Han", email = "jianghanhu367@gmail.com"},
-]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-]
-# Single source of truth for the package version. On release, bump this and the
-# fallback in dcpredictor/version.py, then tag vX.Y.Z (see .claude/rules/git-workflow.md).
-version = "0.1.3"
-
-dependencies = [
-    "pandas>=1.3.0",
-    "numpy>=1.20.0",
-    "matplotlib>=3.3.0",
-    "scipy>=1.7.0",
-    "requests>=2.25.0",
-    "flexpolyline",
-    "python-dotenv",
-]
-
-[project.optional-dependencies]
-dev = [
-    "black>=21.0.0",
-    "isort>=5.9.0",
-    "flake8>=3.9.0",
-    "pylint>=2.9.0",
-    "mypy>=0.910",
-    "pytest>=6.2.0",
-    "pytest-cov>=2.12.0",
-    "jupyter>=1.0.0",
-    "ipykernel>=6.0.0",
-]
-
-# Flat layout: the installable package lives at the repository root (see dcpredictor/README.md).
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["dcpredictor*"]
-
-[tool.setuptools.package-data]
-dcpredictor = ["params/*.json", "CHANGELOG.md"]
+# Tool configuration ONLY — this repository is NOT packaged or distributed as a Python
+# package (no [build-system] / [project] tables). The dcpredictor package at the
+# repository root is imported directly: run from the repo root, or add the root to
+# sys.path as the demo notebooks do. The package version lives in dcpredictor/version.py.
 
 [tool.black]
 line-length = 88
 target-version = ['py310']
 include = '\.pyi?$'
-extend-exclude = '''
-/(
-  # directories
-  \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
 
 [tool.isort]
 profile = "black"
@@ -87,7 +19,6 @@ testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "--cov=dcpredictor --cov-report=term-missing --cov-report=html"
 
 [tool.mypy]
 python_version = "3.10"

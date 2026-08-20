@@ -1,8 +1,8 @@
 > Python code style — referenced from the root `CLAUDE.md` "## Code Style" section via `@import`.
 > Editing here = editing the code-style conventions for the whole project (committed with `.claude/`).
 
-Python code follows PEP 8 and uses the tools configured under
-`[project.optional-dependencies].dev` in `pyproject.toml` for a uniform style:
+Python code follows PEP 8 and uses the tools configured in `pyproject.toml` (tool tables only — the repository
+is not packaged; install the tools via `requirements.txt`) for a uniform style:
 
 - **Formatting**: `black` (line length 88).
 - **Import ordering**: `isort` (profile `black`; stdlib / third-party / local — three groups; `known_first_party = ["dcpredictor"]`).
@@ -43,7 +43,7 @@ The demo workspace (`demo/`) should be a
 self-contained, reproducible archive — deletable or archivable on its own without breaking anything else:
 
 - The only code dependencies allowed are: the Python standard library, pip packages, the versioned
-  `dcpredictor` package (installed via `pip install -e .`), and the sub-project's own files.
+  `dcpredictor` package (imported from the repository root), and the sub-project's own files.
 - **`sys.path.insert` pointing at another sub-project is forbidden.** If you need shared code, import it from
   `dcpredictor`; if it does not belong there yet, copy it with a provenance header (source path, copy date, reason).
 - **Rule of three**: logic reused by 3+ sub-projects and already stable should be promoted into the `dcpredictor`

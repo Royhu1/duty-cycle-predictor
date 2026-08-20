@@ -3,10 +3,10 @@
 
 ### Version number (refers only to the `dcpredictor` package)
 
-The version belongs only to the installable `dcpredictor` package (`dcpredictor/` at the repo root) and follows
-SemVer. It is maintained in **`pyproject.toml` → `[project].version`** (the single source of truth);
-`dcpredictor/version.py` reads it at runtime via `importlib.metadata` and carries a `_FALLBACK_VERSION` for
-uninstalled source trees. The demo notebooks (`demo/`) are **not** part of this scheme and are not tagged.
+The version belongs only to the `dcpredictor` package (`dcpredictor/` at the repo root) and follows SemVer.
+It is maintained in **`dcpredictor/version.py` → `__version__`** (the single source of truth — the repository
+is not packaged, so there is no `pyproject.toml` version). The demo notebooks (`demo/`) are **not** part of
+this scheme and are not tagged.
 
 - `patch` (x.x.**N**): bug fixes / minor adjustments, no interface change
 - `minor` (x.**N**.0): new features, backward compatible
@@ -16,7 +16,7 @@ uninstalled source trees. The demo notebooks (`demo/`) are **not** part of this 
 
 1. Complete the code change →
 2. Update `dcpredictor/README.md` (if architecture / public API / fields changed) →
-3. Bump `version` in `pyproject.toml` **and** `_FALLBACK_VERSION` + metadata in `dcpredictor/version.py` →
+3. Bump `__version__` + `VERSION_DATE` / `VERSION_DESCRIPTION` in `dcpredictor/version.py` →
 4. Add an entry to `dcpredictor/CHANGELOG.md` →
 5. `git commit` → 6. `git tag vX.Y.Z`.
 

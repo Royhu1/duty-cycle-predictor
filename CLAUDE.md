@@ -1,9 +1,10 @@
 # Project Overview
 
 **duty-cycle-predictor** predicts vehicle duty cycles (speed, gradient, and energy/fuel profiles) from a route,
-using external routing/elevation APIs and a longitudinal vehicle-dynamics model. The installable core is the
-`dcpredictor` package at the repository root. This repository is scoped to the development and testing of the
-predictor itself; paper and project-level analysis work lives in separate repositories.
+using external routing/elevation APIs and a longitudinal vehicle-dynamics model. The core is the `dcpredictor`
+package at the repository root (imported directly — the repository is not packaged or distributed). This
+repository is scoped to the development and testing of the predictor itself; paper and project-level analysis
+work lives in separate repositories.
 
 **Core workflow:** origin/destination → HERE route → SRF elevation → speed profile → gradient profile → energy/fuel.
 
@@ -21,8 +22,8 @@ This project uses a dedicated conda environment named **`dcp`** (Python 3.10).
 
 - **Non-interactive shell (Claude Code):** prefix commands, e.g. `conda run -n dcp python ...`, `conda run -n dcp pytest`.
 - **Interactive terminal:** `conda activate dcp` then run normally.
-- Run `pip install -e .` once so `import dcpredictor` resolves from anywhere (the package sits at the repo root —
-  flat layout — so imports also work directly from the root without installing).
+- No installation step: the package sits at the repo root and is imported directly. Run commands from the
+  repository root; the demo notebooks add the root to `sys.path` in their first cell.
 
 ## Code Style
 

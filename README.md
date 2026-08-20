@@ -11,14 +11,16 @@ elevation (SRF) data plus a longitudinal vehicle-dynamics model.
 
 ## Project architecture: a hierarchical design
 
-The repository is deliberately small: one installable, versioned core package (`dcpredictor/`) at the root,
+The repository is deliberately small: one versioned core package (`dcpredictor/`) at the root — imported
+directly, **not packaged or distributed** — plus
 demo notebooks (`demo/`) showing how to use it, and unit tests (`tests/`, with sample GPS data under
 `tests/data/`, kept out of git). Each directory documents itself through its own `README.md`, so humans and AI
 agents can navigate by progressive disclosure. Only source code and documentation are committed (see `.gitignore`).
 
 This repository is deliberately scoped to the **development and testing of the predictor itself** — clone it to use,
 experiment with, or evaluate the toolkit. Paper writing and project-level analyses (e.g. conference papers,
-fleet case studies) live in their own separate repositories that install `dcpredictor` as a dependency.
+fleet case studies) live in their own separate repositories that use `dcpredictor` (clone this repository and
+add its root to `PYTHONPATH`, or vendor the `dcpredictor/` folder).
 
 ## Repository layout
 
@@ -26,13 +28,13 @@ Only the top level is shown; folders with their own `README.md` document their i
 
 ```
 ./
-├── dcpredictor          # core package — the only installable, versioned unit
+├── dcpredictor          # core package — the versioned core, imported directly (not packaged)
 ├── demo                 # demo notebooks: offline basics, end-to-end prediction, validation
 ├── tests                # unit tests (pytest)
 │   └── data             # sample GPS trip legs, tests/data/<REG>/*.csv (gitignored)
 ├── tmp                  # one-off scratch: logs, debug figures, _tmp_*.py (gitignored)
-├── requirements.txt     # pip dependency list
-├── pyproject.toml       # packaging + tooling config for dcpredictor
+├── requirements.txt     # pip dependency list (runtime + demos/tests + style tools)
+├── pyproject.toml       # tool configuration only (black / isort / pytest / mypy)
 ├── README.md            # project map (this file)
 ├── CLAUDE.md            # Claude / AI collaboration conventions (imports .claude/rules/*)
 └── .claude              # Claude Code config: committed rules, gitignored skills/runtime
@@ -49,13 +51,10 @@ conda activate dcp
 
 # 2. Install dependencies
 pip install -r requirements.txt
-
-# 3. Install the core package in editable mode (required — src-layout)
-pip install -e .
 ```
 
-> The package lives at the repository root (flat layout), so `import dcpredictor` works directly from the root;
-> the editable install makes it resolve from anywhere (demo notebooks, tests, other projects).
+> There is **no installation step**: the package lives at the repository root, so `import dcpredictor` works
+> directly when running from the root (the demo notebooks add the root to `sys.path` in their first cell).
 
 ### API keys
 
@@ -108,8 +107,8 @@ Worked examples live in [`demo/`](demo/):
 | Notebook | Needs | Shows |
 |----------|-------|-------|
 | `basic_usage_offline.ipynb` | nothing | offline building blocks: speed profile + wheel power + fuel rate |
-| `predict_end_to_end.ipynb` | HERE key (SRF optional) | the full `predict()` pipeline with plots |
-| `predict_vs_measured_leg.ipynb` | HERE key + sample data | prediction validated against a measured GPS trip leg |
+| `predict_end_to_end.ipynb` | HERE key (SRF optional) | the full `predict()` pipeline with plots and a folium route map |
+| `predict_vs_measured_leg.ipynb` | HERE key + sample data | prediction validated against a measured GPS trip leg, incl. a measured-vs-predicted trajectory map |
 
 ## What it predicts
 
@@ -164,7 +163,7 @@ Defaults live in `dcpredictor/params/*.json` and are loaded via `load_default_ve
 
 ```bash
 conda activate dcp
-pip install -e ".[dev]"
+pip install -r requirements.txt
 
 pytest                 # run unit tests (no API keys required)
 black .                # format

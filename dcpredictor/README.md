@@ -4,19 +4,20 @@
 > and key algorithms. The repository-wide map is the root [`README.md`](../README.md). Versioning / commit /
 > changelog conventions are in [`../.claude/rules/git-workflow.md`](../.claude/rules/git-workflow.md).
 
-`dcpredictor` is the installable, SemVer-versioned core of the project (distribution name `duty-cycle-prediction`,
-import name `dcpredictor`). It turns a route into a duty cycle: a speed profile, a gradient profile, and an
+`dcpredictor` is the SemVer-versioned core of the project (import name `dcpredictor`; the repository is **not**
+packaged or distributed). It turns a route into a duty cycle: a speed profile, a gradient profile, and an
 energy/fuel profile.
 
-## Install & run
+## Run
 
 ```bash
 conda activate dcp
-pip install -e .            # editable install (run in the repository root)
+pip install -r requirements.txt
 ```
 
-The version is single-sourced from `pyproject.toml` (`[project].version`); `version.py` reads it at runtime via
-`importlib.metadata`, with a `_FALLBACK_VERSION` for uninstalled source trees.
+No installation step: import the package directly from the repository root (`import dcpredictor`); the demo
+notebooks add the root to `sys.path` in their first cell. The version is single-sourced from `version.py`
+(`__version__`).
 
 ## Public API
 
@@ -118,6 +119,6 @@ with optional regenerative recovery on negative power.
 
 ## Versioning
 
-SemVer applies to this package only. On release: bump `pyproject.toml` `version` **and** `version.py`
-`_FALLBACK_VERSION`/metadata, add a `CHANGELOG.md` entry, commit, and tag `vX.Y.Z`. See
+SemVer applies to this package only. On release: bump `version.py` `__version__` and its
+`VERSION_DATE` / `VERSION_DESCRIPTION`, add a `CHANGELOG.md` entry, commit, and tag `vX.Y.Z`. See
 [`../.claude/rules/git-workflow.md`](../.claude/rules/git-workflow.md).
