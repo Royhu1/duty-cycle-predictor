@@ -8,9 +8,68 @@ over the global rules below** — read them first.
 
 <!-- BEGIN GLOBAL RULES (generated) -->
 <!-- GENERATED FILE - DO NOT EDIT.
-     Source of truth: ~/.claude/rules/{naming,code-style,git-workflow,housekeeping}.md @ fb65e8f (2026-08-20)
+     Source of truth: ~/.claude/rules/{repo-roles,naming,code-style,git-workflow,housekeeping}.md @ 2d78e38 (2026-08-20)
      To change these rules: edit the source files, then run /sync-agent-rules in Claude Code
      (or: powershell -File ~/.claude/rules/tools/build-agents-md.ps1). -->
+# Repository Roles (Global) ／仓库角色与职责划分
+
+> Personal defaults for ALL projects. Project rules override.
+> Research code splits into **two repositories side by side** under the same parent directory. Pick one role per
+> repository and state it in the first line of its README. ／每个仓库只承担一种角色，README 首行写明。
+
+## 1. The pair ／一对仓库
+
+| | `<name>` — **core repo** ／主开发仓库 | `<name>-workspace` — **workspace** ／实验工作区 |
+|---|---|---|
+| Holds | one algorithm / library + its unit tests + small demos | experiments, large-scale studies, figures for talks and papers |
+| Audience | shareable, often public | private, my own research work |
+| Medium | modules with docstrings and tests | notebooks |
+| Tracked in git | source + documentation only | experiment code + documentation only |
+| Versioned | SemVer in ONE place, tagged `vX.Y.Z` | none — git log + `changelogs/` are the record |
+| Commit types | `feat:` `fix:` `refactor:` `docs:` `test:` | mostly `exp:` |
+| Skeleton | `<pkg>/ demo/ tests/ tmp/` | `paths.py <experiment>/ data/ changelogs/ archive/ tmp/` |
+
+- **Not packaged by default** ／默认不打包: personal research code is *imported*, not `pip install`-ed. Keep the
+  package directory at the repository root (flat layout), version it in `<pkg>/version.py`, and add
+  `[build-system]`/`[project]` tables only when someone outside actually needs `pip install`. `pyproject.toml`
+  otherwise holds tool config only.
+- Papers and conferences are **neither** — they live in their own folder (`MEETING-CONFERENCE/<conf>-YYYY-MM`).
+
+## 2. Division of responsibility ／职责划分
+
+- An algorithm change belongs in the **core repo**, on a feature branch, with a test. **Never copy core code into
+  a workspace** ／绝不把核心代码复制进工作区.
+- **Rule of three**: logic used by 3+ experiments and already stable → promote it into the core package (SemVer
+  minor bump), do not keep copying it.
+- Model parameters and presets that describe the *system* live in the core repo and are read through its public
+  loaders — never by file path. Experiment-specific configuration stays in the workspace.
+- The core repo's own data zone holds only small fixtures for its tests and demos; bulk measured data belongs to
+  the workspace.
+
+## 3. The unified route ／统一路由 (workspace)
+
+- **Exactly one module — `paths.py` at the workspace root — knows where everything is.** A hard-coded absolute
+  path anywhere else is a defect. Moving the core repo must be a one-line change. ／别处出现绝对路径即为缺陷。
+- It resolves the core repo from the env var `<NAME>_ROOT`, else the sibling `../<name>`; `bootstrap()` prepends
+  it to `sys.path` and loads the API keys (`.env` in the workspace → core repo → a shared key folder).
+- Per-experiment zones come from a helper (`experiment_paths(<experiment>, <key>)` → `data` / `results` /
+  `figures` / `summary`), all gitignored and created on demand.
+- Each experiment directory is a **self-contained reproducible archive**: standard library + pip packages + the
+  core package + its own files; it never reads another experiment's outputs.
+- The only path boilerplate allowed anywhere, at any depth:
+
+  ```python
+  import sys
+  from pathlib import Path
+
+  _cwd = Path.cwd()
+  WORKSPACE_ROOT = next(p for p in [_cwd, *_cwd.parents] if (p / "paths.py").exists())
+  sys.path.insert(0, str(WORKSPACE_ROOT))
+
+  from paths import bootstrap, experiment_paths      # noqa: E402
+  bootstrap()
+  ```
+
 # Naming Conventions (Global) ／全局命名规范
 
 > Personal defaults for ALL projects. Project-level rules override this file.
